@@ -11,7 +11,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/t59/apps.js",
+            "program": "${workspaceFolder}/a4/apps.js",
+            "cwd": "${workspaceFolder}/a4",
             "restart": true,
             "runtimeExecutable": "nodemon",
             "console": "integratedTerminal"
