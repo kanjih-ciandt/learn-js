@@ -25,7 +25,7 @@
                                 <td><%= p.qty * p.productsData.price %></td>
                                 <td>
                                     <form action="/cart-delete-item" method="POST">
-                                        <input type="hidden" name="productId" value="<%= p.productsData._id %>">
+                                        <input type="hidden" name="productId" value="<%= p.productsData.id %>">
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
                                 </td>
