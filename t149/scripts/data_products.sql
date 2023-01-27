@@ -1,0 +1,2 @@
+INSERT INTO `node-complete`.products (id, title, price, description, imageUrl) VALUES (1, 'A Book', 19, 'This is an awesome book!', 'https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg');
+INSERT INTO `node-complete`.products (id, title, price, description, imageUrl) VALUES (2, 'Another Product', 20.99, 'Another very Amazing product', 'https://images.unsplash.com/photo-1591378603223-e15b45a81640?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8a3RtJTIwZHVrZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60');
