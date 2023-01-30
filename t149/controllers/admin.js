@@ -14,7 +14,7 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect('/');
   }
   const prodId = req.params.productId;
-  Product.findById(prodId, product => {
+  Product.findByPk(prodId).then( product => {
     if (!product) { // if product is null or undefined
       return res.redirect('/');
     }
@@ -25,7 +25,7 @@ exports.getEditProduct = (req, res, next) => {
       product: product
     });
 
-  });
+  }).catch(error => console.log(error));
  
 };
 
@@ -52,15 +52,25 @@ exports.postEditProduct = (req, res, next) => {
   const updatedImageUrl = req.body.imageUrl;
   const updatedPrice = req.body.price;
   const updatedDesc = req.body.description;
-  const updatedProduct = new Product(
-    prodId,
-    updatedTitle,
-    updatedImageUrl,
-    updatedDesc,
-    updatedPrice
-  );
-  updatedProduct.save();
-  res.redirect('/admin/products');
+  // const updatedProduct = new Product(
+  //   prodId,
+  //   updatedTitle,
+  //   updatedImageUrl,
+  //   updatedDesc,
+  //   updatedPrice
+  // );
+  // updatedProduct.save();
+  Product.findByPk(prodId).then( product => {
+    product.title = updatedTitle;
+    product.price = updatedPrice;
+    product.description = updatedDesc;
+    product.imageUrl = updatedImageUrl;
+    return product.save();
+  }).then(result => {
+    console.log('UPDATED PRODUCT!');
+    res.redirect('/admin/products');
+  }).catch(error => console.log(error));
+  
 
     
 };
