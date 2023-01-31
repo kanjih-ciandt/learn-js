@@ -53,10 +53,16 @@ sequelize.sync().then(result => {
     }
     return Promise.resolve(user);
 }).then(user => {
-    return user.createCart();
-}).then(cart => {
+    return Promise.all([user.getCart(), Promise.resolve(user)]);
+}).then(([cart, user]) => {
+    if (!cart) {
+        return user.createCart();
+    }
+    return Promise.resolve(cart);
+}).then(cart =>{
     console.log(cart);
     app.listen(3000);
+
 }).catch(err => {
     console.log(err);
 });
