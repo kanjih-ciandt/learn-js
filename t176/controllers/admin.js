@@ -1,5 +1,5 @@
 const Product = require('../models/product');
-const User = require('../models/user');
+// const User = require('../models/user');
 
 exports.getAddProduct = (req, res, next) => {
   res.render('admin/edit-product', {
@@ -9,24 +9,24 @@ exports.getAddProduct = (req, res, next) => {
   });
 };
 
-exports.getEditProduct = (req, res, next) => {
-  const editMode = req.query.edit;
-  if (!editMode) {
-    return res.redirect('/');
-  }
-  const prodId = req.params.productId;
-  req.user.getProducts({where: {id: prodId}}).then(products => {
-    const product = products[0];
-    if (!product) { // if product is null or undefined
-      return res.redirect('/');
-    }
-    res.render('admin/edit-product', {
-      pageTitle: 'Edit Product',
-      path: '/admin/edit-product',
-      editing: editMode,
-      product: product
-    });
-  }).catch(error => console.log(error));
+// exports.getEditProduct = (req, res, next) => {
+//   const editMode = req.query.edit;
+//   if (!editMode) {
+//     return res.redirect('/');
+//   }
+//   const prodId = req.params.productId;
+//   req.user.getProducts({where: {id: prodId}}).then(products => {
+//     const product = products[0];
+//     if (!product) { // if product is null or undefined
+//       return res.redirect('/');
+//     }
+//     res.render('admin/edit-product', {
+//       pageTitle: 'Edit Product',
+//       path: '/admin/edit-product',
+//       editing: editMode,
+//       product: product
+//     });
+//   }).catch(error => console.log(error));
   
   // Product.findByPk(prodId).then( product => {
   //   if (!product) { // if product is null or undefined
@@ -41,7 +41,7 @@ exports.getEditProduct = (req, res, next) => {
 
   // }).catch(error => console.log(error));
  
-};
+// };
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
