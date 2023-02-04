@@ -25,6 +25,14 @@ class Product {
       return products;
     }).catch(error => console.log(error));
   }
+
+  static findById(prodId){
+    const db = getDB();
+    return db.collection('products').find({_id: new mongodb.ObjectId(prodId)}).next().then(product => {
+      console.log(product);
+      return product;
+    }).catch(error => console.log(error));
+  }
 }
 
 module.exports = Product;
