@@ -1,5 +1,8 @@
+const mongodb = require('mongodb');
 const Product = require('../models/product');
 // const User = require('../models/user');
+
+const ObjectId = mongodb.ObjectId;
 
 exports.getAddProduct = (req, res, next) => {
   res.render('admin/edit-product', {
@@ -9,39 +12,25 @@ exports.getAddProduct = (req, res, next) => {
   });
 };
 
-// exports.getEditProduct = (req, res, next) => {
-//   const editMode = req.query.edit;
-//   if (!editMode) {
-//     return res.redirect('/');
-//   }
-//   const prodId = req.params.productId;
-//   req.user.getProducts({where: {id: prodId}}).then(products => {
-//     const product = products[0];
-//     if (!product) { // if product is null or undefined
-//       return res.redirect('/');
-//     }
-//     res.render('admin/edit-product', {
-//       pageTitle: 'Edit Product',
-//       path: '/admin/edit-product',
-//       editing: editMode,
-//       product: product
-//     });
-//   }).catch(error => console.log(error));
-  
-  // Product.findByPk(prodId).then( product => {
-  //   if (!product) { // if product is null or undefined
-  //     return res.redirect('/');
-  //   }
-  //   res.render('admin/edit-product', {
-  //     pageTitle: 'Edit Product',
-  //     path: '/admin/edit-product',
-  //     editing: editMode, 
-  //     product: product
-  //   });
-
-  // }).catch(error => console.log(error));
+exports.getEditProduct = (req, res, next) => {
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect('/');
+  }
+  const prodId = req.params.productId;
+  Product.findById(prodId).then( product => {
+    if (!product) { // if product is null or undefined
+      return res.redirect('/');
+    }
+    res.render('admin/edit-product', {
+      pageTitle: 'Edit Product',
+      path: '/admin/edit-product',
+      editing: editMode,
+      product: product
+    });
+  }).catch(error => console.log(error));
  
-// };
+};
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
@@ -62,13 +51,9 @@ exports.postEditProduct = (req, res, next) => {
   const updatedImageUrl = req.body.imageUrl;
   const updatedPrice = req.body.price;
   const updatedDesc = req.body.description;
-  Product.findByPk(prodId).then( product => {
-    product.title = updatedTitle;
-    product.price = updatedPrice;
-    product.description = updatedDesc;
-    product.imageUrl = updatedImageUrl;
-    return product.save();
-  }).then(result => {
+  const product = new Product(updatedTitle, updatedImageUrl, updatedDesc, updatedPrice, new ObjectId(prodId));
+    
+  product.save().then(result => {
     console.log('UPDATED PRODUCT!');
     res.redirect('/admin/products');
   }).catch(error => console.log(error));
