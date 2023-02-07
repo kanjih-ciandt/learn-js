@@ -24,7 +24,10 @@ class User {
 
   static findById(userId) {
     const db = getDB();
-    return db.collection('users').findOne({_id: new mongodb.ObjectId(userId)});
+    return db.collection('users').findOne({_id: new mongodb.ObjectId(userId)}).then(user => { 
+      console.log(user);
+      return user
+    }).catch(error => console.log(error));
   }
 
   static fetchAll() {
