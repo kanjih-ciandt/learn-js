@@ -80,6 +80,18 @@ class User {
       }).catch(error => console.log(error));
   }
 
+  addOrder() {
+    const db = getDB();
+    return db.collection('orders').insertOne(this.cart).then(result => {
+      this.cart = {items: []};
+      return db.collection('users')
+      .updateOne(
+        {_id: new mongodb.ObjectId(this._id)},
+        {$set: {cart: {items: []}}}
+      );
+    }).catch(error => console.log(error));
+  }
+
   static findById(userId) {
     const db = getDB();
     return db.collection('users').findOne({_id: new mongodb.ObjectId(userId)}).then(user => { 
