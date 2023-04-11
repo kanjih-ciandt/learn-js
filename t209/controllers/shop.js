@@ -1,20 +1,21 @@
 const Product = require('../models/product');
-const Order = require('../models/order');
+// const Order = require('../models/order');
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll().then( products => {
-    res.render('shop/product-list', {
-      prods: products,
-      pageTitle: 'All Products',
-      path: '/products'
-    });
+  Product.find()
+    .then( products => {
+      console.log(products);
+      res.render('shop/product-list', {
+        prods: products,
+        pageTitle: 'All Products',
+        path: '/products'
+      });
 
   } ).catch(error => console.log(error));
 };
 
 exports.getProduct = (req, res, next) => {
   const productId = req.params.productId;
-  // Product.findAll({where: {id: productId}}}).then().catch();
   Product.findById(productId).then((product) => {
     res.render('shop/product-detail', {product: product, pageTitle: product.title, path: '/products'});
   }).catch(error => console.log(error));
@@ -22,7 +23,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll().then( products => {
+  Product.find().then( products => {
     console.log('GET ALL PRODUCTS: ', products);
     res.render('shop/index', {
       prods: products,
